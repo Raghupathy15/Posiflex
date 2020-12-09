@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- To invisible default 'New Quotation' button in CRM -->
+	<record id="sale_crm.crm_case_form_view_oppor" model="ir.ui.view">
+		<field name="name">crm.lead.oppor.inherited.crm</field>
+		<field name="model">crm.lead</field>
+		<field name="inherit_id" ref="crm.crm_lead_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//button[@name='action_set_won_rainbowman']" position="before">
+				<button string="New Quotation" name="action_sale_quotations_new" type="object" class="oe_highlight" invisible="1"/>
+			</xpath>
+			<button name="action_schedule_meeting" position="after">
+				<button class="oe_stat_button" type="object"
+					name="action_view_sale_quotation" icon="fa-pencil-square-o" attrs="{'invisible': [('type', '=', 'lead')]}">
+					<field name="quotation_count" widget="statinfo" string="Quotations"/>
+				</button>
+				<button class="oe_stat_button" type="object" attrs="{'invisible': ['|', ('sale_order_count', '=', 0), ('type', '=', 'lead')]}"
+					name="action_view_sale_order" icon="fa-usd">
+					<div class="o_field_widget o_stat_info">
+						<span class="o_stat_value"><field name="sale_amount_total" widget="monetary" options="{'currency_field': 'company_currency'}"/></span>
+						<span class="o_stat_text"> Orders</span>
+						<field name="sale_order_count" invisible="1"/>
+					</div>
+				</button>
+			</button>
+		</field>
+	</record>
+
+	<record id="crm_lead_form_view_inherit" model="ir.ui.view">
+		<field name="name">crm.lead.form</field>
+		<field name="model">crm.lead</field>
+		<field name="inherit_id" ref="crm.crm_lead_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//form" position="attributes">
+				<attribute name="delete">false</attribute>
+			</xpath>
+			<xpath expr="//button[@name='action_set_won_rainbowman']" position="replace">            
+				<button name="action_set_won_rainbowman" string="Mark Qualified"
+						type="object" class="oe_highlight"
+						attrs="{'invisible': ['|','|', ('active','=',False), ('probability', '=', 100), ('type', '=', 'lead')]}"/>
+			</xpath>
+			<xpath expr="//button[@name='%(crm.crm_lead_lost_action)d']" position="replace">            
+				<button name="%(crm.crm_lead_lost_action)d" string="Mark Lost / Reject"
+							type="action" class="oe_highlight" context="{'default_lead_id': active_id}" attrs="{'invisible': ['|',('type', '=', 'lead'),('active', '=', False),('probability', '&lt;', 100)]}"/>
+			</xpath>
+			<xpath expr="//button[@name='action_set_won_rainbowman']" position="before">
+				<button string="New Quotation" name="action_create_quotation" type="object" class="oe_highlight"
+					attrs="{'invisible': ['|','|','|',('type', '=', 'lead'),'|',('is_internal', '=',True), '&amp;', ('probability', '=', 0), ('active', '=', False),('is_won', '=', False),('is_quotation_created', '=', True)]}"/>
+			</xpath>
+			<field name="company_id" position="replace">
+				<field name="company_id" invisible="1"/>
+			</field>
+			<field name="company_id" position="after">
+				<field name="q_remarks"/>
+				<field name="notes"/>
+				<field name="cus_remarks"/>
+				<field name="is_won" invisible="1"/>
+				<field name="is_quotation_created" invisible="1"/>
+			</field>
+			<field name="partner_id" position="replace">
+				<field name="partner_id" widget="res_partner_many2one" string="Existing Customer"
+									context="{'res_partner_search_mode': type == 'opportunity' and 'customer' or False,
+										'default_name': contact_name or partner_name,
+										'default_street': street,
+										'default_is_company': type == 'opportunity' and contact_name == False,
+										'default_company_name': type == 'opportunity' and partner_name,
+										'default_street2': street2,
+										'default_city': city,
+										'default_title': title,
+										'default_state_id': state_id,
+										'default_zip': zip,
+										'default_country_id': country_id,
+										'default_function': function,
+										'default_phone': phone,
+										'default_mobile': mobile,
+										'default_email': email_from,
+										'default_user_id': user_id,
+										'default_team_id': team_id,
+										'default_website': website,
+										'show_vat': True,
+									}"/>
+			</field>
+			<field name="user_id" position="after">
+				<field name="sm_emp_id" options='{"no_open": True}' attrs="{'invisible': [('type', '=', 'lead')]}"/>
+				<field name="rsm_emp_id" options='{"no_open": True}' attrs="{'invisible': [('type', '=', 'lead')], 'readonly': [('is_rsm', '=', True)]}"/>
+				<field name="sh_emp_id" options='{"no_open": True}' attrs="{'invisible': [('type', '=', 'lead')], 'readonly': [('is_rsm', '=', True)]}"/>
+			</field>
+			<field name="user_id" position="replace">
+				<!-- <field name="branch_id"/> -->
+				<label for="user_id" options='{"no_open": True}' attrs="{'invisible': [('type', '=', 'lead')], 'readonly': [('is_rsm', '=', True)]}"/>
+				<div>
+					<div class="o_row">
+					   <!-- <field name="user_id" readonly="1" force_save="1"/> -->
+						<field name="user_id"  attrs="{'invisible': [('type', '=', 'lead')], 'readonly': [('is_rsm', '=', True)]}"/>
+						<button name="send_mail_to_sales" string="Send Mail Notify" type="object" class="oe_highlight" attrs="{'invisible': ['|','|',('type', '=', 'lead'),('is_mail_send', '=',True),('is_user', '=',True)]}"/>
+					</div>
+				</div>
+				<field name="is_mail_send" invisible="1"/>
+				<field name="is_user" invisible="1"/>
+			</field>
+			<field name="partner_id" position="before">
+				<field name="lead_sequence" string="Lead Number"/>
+			</field>
+			<field name="date_deadline" position="before">
+				<field name="opp_sequence" string="Opp Number"/>
+				<field name="partner_id" widget="res_partner_many2one"
+							context="{'default_name': contact_name,
+								'default_street': street,
+								'default_city': city,
+								'default_state_id': state_id,
+								'default_zip': zip,
+								'default_country_id': country_id,
+								'default_function': function,
+								'default_phone': phone,
+								'default_mobile': mobile,
+								'default_email': email_from,
+								'default_user_id': user_id,
+								'default_team_id': team_id,
+								'default_website': website,
+								'show_vat': True
+							}" invisible="1"/>
+			</field>
+			<field name="phone" position="after">
+				<field name="partner_name"/>
+				<field name="contact_name"/>
+				<label for="street" string="Address"/>
+				<div class="o_address_format"> 
+					<field name="street" placeholder="Street..." class="o_address_street"/>
+					<field name="street2" placeholder="Street 2..." class="o_address_street"/>
+					<field name="city" placeholder="City" class="o_address_city" required="1"/>
+					<field name="state_id" class="o_address_state" required="1" placeholder="State" options='{"no_open": True}'/>
+					<field name="zip" placeholder="ZIP" class="o_address_zip"/>
+					<field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+				</div>
+			</field>
+			<field name="date_deadline" position="after">
+				<field name="pre_sales" invisible="1"/>
+				<field name="pre_sales_id" attrs="{'invisible': [('pre_sales', '=',False)]}" invisible="1"/>
+			</field>
+			<field name="team_id" position="replace">
+				<field name="team_id" invisible="1"/>
+				<field name="pre_sales_person_id" invisible="1"/>
+				<field name="industry_id"/>
+				<field name="create_uid"/>
+				<field name="is_sm" invisible="1"/>
+				<field name="is_rsm" invisible="1"/>
+				<field name="is_internal" invisible="1"/>
+			</field>
+			<xpath expr="//notebook/page[2]" position="attributes">
+				<attribute name="invisible">True</attribute>
+			</xpath>
+			<xpath expr="//notebook/page[3]" position="attributes">
+				<attribute name="invisible">True</attribute>
+			</xpath>
+			<field name="mobile" position="after">
+				<field name="source_id"/>
+			</field>
+			<xpath expr="//page[1]" position='before'>
+				<page string="Product Details">
+					<field name="product_ids" widget="section_and_note_one2many">
+						<tree editable="bottom">
+							<field name="product_id"/>
+							<field name="name" force_save="1" invisible="1"/>
+							<field name="categ_id" force_save="1"/>
+							<field name="product_uom_qty_ref" invisible="1"/>
+							<field name="product_uom_qty"/>
+							<field name="is_qty_updated" invisible="1"/>
+							<field name="product_uom_qty_ref_1" invisible="1"/>
+						</tree>
+					</field>
+				</page>
+				<page string="FAQ-Questions">
+					<group>
+						<group>
+							<field name="categ_id" options='{"no_open": True}' force_save="1"/>
+							<field name="categ_id_1" invisible="1" options='{"no_open": True}' force_save="1"/>
+							<field name="categ_id_2" invisible="1" options='{"no_open": True}' force_save="1"/>
+							<field name="categ_id_3" invisible="1" options='{"no_open": True}' force_save="1"/>
+							<field name="categ_id_4" invisible="1" options='{"no_open": True}' force_save="1"/>
+							<field name="categ_id_5" invisible="1" options='{"no_open": True}' force_save="1"/>
+						</group>
+						<group>
+							<field name="category_ids" widget="many2many_tags"/>
+							<field name="categ_id_6" invisible="1" options='{"no_open": True}' force_save="1"/>
+							<field name="categ_id_7" invisible="1" options='{"no_open": True}' force_save="1"/>
+							<field name="categ_id_8" invisible="1" options='{"no_open": True}' force_save="1"/>
+							<field name="categ_id_9" invisible="1" options='{"no_open": True}' force_save="1"/>
+							<field name="categ_id_10" invisible="1" options='{"no_open": True}' force_save="1"/>
+						</group>
+					</group>
+					<field name="question_line_ids" force_save="1">
+						<tree editable="bottom">
+							<field name="name"/>
+							<field name="categ_id"/>
+							<field name="answer"/>
+						</tree>
+					</field>
+				</page>
+			</xpath>
+		</field>
+	</record>
+
+	<!-- Inherit Lead list view -->
+	<record model="ir.ui.view" id="inherit_crm_case_tree_view_leads">
+	   <field name="name">crm.lead.tree.inherit</field>
+	   <field name="model">crm.lead</field>
+	   <field name="type">tree</field>
+	   <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
+	   <field name="arch" type="xml">
+			<xpath expr="//tree" position="attributes">
+				<attribute name="delete">false</attribute>
+			</xpath>
+			<field name="date_deadline" position="before">
+				<field name="lead_sequence" string="Lead Number"/>
+			</field>
+	   </field>
+   </record>
+
+    <!-- Inherit Opportunity list view -->
+	<record model="ir.ui.view" id="crm_case_tree_view_oppor_inherit">
+	   <field name="name">crm.opp.tree.inherit</field>
+	   <field name="model">crm.lead</field>
+	   <field name="type">tree</field>
+	   <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+	   <field name="arch" type="xml">
+			<xpath expr="//tree" position="attributes">
+				<attribute name="delete">false</attribute>
+			</xpath>
+			<field name="date_deadline" position="before">
+				<field name="opp_sequence" string="Opp Number"/>
+			</field>
+			<field name="partner_id" position="after">
+				<field name="partner_name"/>
+				<field name="contact_name"/>
+			</field>
+	   </field>
+   </record>
+
+	<!-- Seq for LEAD -->
+	<record id="sequence_crm" model="ir.sequence">
+		<field name="name">CRM</field>
+		<field name="code">crm.lead</field>
+		<field name="prefix">LEAD/</field>
+		<field name="padding">4</field>
+		<field eval="False" name="company_id"/>
+	</record>
+	<!-- Seq for OPP -->
+	<record id="sequence_crm_opp" model="ir.sequence">
+		<field name="name">CRM</field>
+		<field name="code">crm.lead.opp</field>
+		<field name="prefix">OPP/</field>
+		<field name="padding">4</field>
+		<field eval="False" name="company_id"/>
+	</record>
+</odoo>

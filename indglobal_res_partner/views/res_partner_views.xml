@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="res_part_inherit_form" model="ir.ui.view">
+		<field name="name">res.partner.form</field>
+		<field name="model">res.partner</field>
+		<field name="inherit_id" ref="base.view_partner_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//form" position="attributes">
+				<attribute name="delete">false</attribute>
+			</xpath>
+			<xpath expr="//field[@name='type']" position="before">
+				<field name="customer_id"/>
+				<field name="vendor_type"/>
+			</xpath>
+			<group name="purchase" position="inside">
+                <field name="purchaser_code"/>
+            </group>
+			<xpath expr="//field[@name='website']" position="before">
+				<field name="telex_no"/>
+				<field name="territory_code"/>
+				<field name="budgeted_amt"/>
+				<field name="posting_group_id" widget="selection"/>
+				<field name="statistics_group"/>
+				<field name="shipment_method_code"/>
+				<field name="Shipping_agent_code"/>
+				<field name="invoice_disc_code"/>
+				<field name="application_method"/>
+				<field name="telex_answer_back"/>
+				<field name="vat_reg_no"/>
+				<field name="tax_liable"/>
+				<field name="vat_posting_group"/>
+				<field name="block_payment_tolerance"/>
+				<field name="creditor_no"/>
+				<field name="location_code"/>
+				<field name="lead_time_calculation"/>
+				<field name="base_calendar_code"/>
+				<field name="tin"/>
+				<field name="lst"/>
+				<field name="cst"/>
+				<field name="ecc"/>
+				<field name="subcontractor"/>
+				<field name="service_tax_registration_no"/>
+				<field name="service_entity_type"/>
+				<field name="composition"/>
+				<field name="transporter"/>
+				<field name="aggregate_turnover"/>
+				<field name="arn_no"/>
+			</xpath>
+			<xpath expr="//field[@name='vat']" position="after">
+				<field name="global_dimension_code_1"/>
+				<field name="global_dimension_code_2"/>
+				<field name="payment_terms_code"/>
+				<field name="charge_terms_code"/>
+				<field name="blocked"/>
+				<field name="pay_to_vendor_no"/>
+				<field name="priority"/>
+				<field name="payment_method_code"/>
+				<field name="vat_price"/>
+				<field name="fax_no"/>
+				<field name="posting_group"/>
+				<field name="gln"/>
+				<field name="ic_partner_code"/>
+				<field name="prepayment"/>
+				<field name="preferred_bank_account"/>
+				<field name="cash_flow_payment_terms"/>
+				<field name="responsibility_center"/>
+				<field name="range"/>
+				<field name="collectorate"/>
+				<field name="excise_posting_group"/>
+				<field name="ssi"/>
+				<field name="ssi_validity_date"/>
+				<field name="structure"/>
+				<field name="vendor_location"/>
+				<field name="commissioner_permission_no"/>
+				<field name="associated_enterprises"/>
+				<field name="cus_posting_group_id" widget='selection'/>
+			</xpath>
+			<xpath expr="//page[3]" position='after'>
+				<page string="PAN Details">
+					<group>
+						<group>
+							<field name="pan"/>
+							<field name="pan_status"/>
+						</group>
+						<group>
+							<field name="pan_ref_no"/>
+						</group>
+					</group>
+				</page>
+			</xpath>
+			<xpath expr="//page[3]" position='after'>
+				<page string="GST Details">
+					<group>
+						<group>
+							<field name="gst_reg_no"/>
+						</group>
+						<group>
+							<field name="gst_vendor_type"/>
+						</group>
+					</group>
+				</page>
+			</xpath>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="inherit_view_partner_tree">
+	   <field name="name">res.partner.tree.inherit</field>
+	   <field name="model">res.partner</field>
+	   <field name="type">tree</field>
+	   <field name="inherit_id" ref="base.view_partner_tree"/>
+	   <field name="arch" type="xml">
+	   		<xpath expr="//tree" position="attributes">
+				<attribute name="delete">false</attribute>
+			</xpath>
+	   </field>
+   </record>
+
+</odoo>

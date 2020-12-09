@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_questions,questions,model_questions,,1,1,1,1
+access_followup_activities,followup.activities ,model_followup_activities,,1,1,1,1
+access_followup_activities_partner,followup.activities.partner,model_followup_activities_partner,,1,1,1,1
+access_crm_products,crm.products,model_crm_products,,1,1,1,1

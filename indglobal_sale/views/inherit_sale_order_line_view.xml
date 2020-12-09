@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="sale_order_form_inherited" model="ir.ui.view">
+			<field name="name">sale.order.form.inherited</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//form/sheet/notebook/page/field/tree/field[@name='name']" position="after">
+					<field name="warranty_period"/>
+				</xpath>
+				<xpath expr="//form/sheet/notebook/page/field/tree/field[@name='tax_id']" position="after">
+					<field name="add_discount" string="Add disc"/>
+				</xpath>
+				<!-- <field name="discount" position="replace">
+					<label for="discount" groups="product.group_discount_per_so_line"/>
+					<div name="discount" groups="product.group_discount_per_so_line">
+						<field name="discount" string='discount.%' class="oe_inline"/> %%
+					</div>
+				</field> -->
+			</field>
+		</record>
+	</data>
+</odoo>

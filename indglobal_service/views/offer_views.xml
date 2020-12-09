@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="view_offer_tree" model="ir.ui.view">
+		<field name="name">view.offers.tree</field>
+		<field name="model">offers</field>
+		<field name="priority" eval="8" />
+		<field name="arch" type="xml">
+			<tree string="Offers" decoration-danger="state=='expired'" decoration-success="state=='active'" duplicate='false'>
+				<field name="offer_sequence" string='Offer No'/>
+				<field name="name"/>
+				<field name="offer_from"/>
+				<field name="offer_to"/>
+				<field name="state"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_offers_form" model="ir.ui.view">
+		<field name="name">view.offers.form</field>
+		<field name="model">offers</field>
+		<field name="arch" type="xml">
+			<form duplicate='false'>
+				<header>
+					<button string="Submit" name="button_submit" type="object" class="oe_highlight" attrs="{'invisible':[('state', 'not in', 'draft')]}"/>
+					<field name="state" widget="statusbar" statusbar_visible="draft,active,expired"/>
+				</header>
+				<sheet>
+					<div class="oe_title oe_inline">
+						<h1><field name="offer_sequence"/></h1>
+					</div>
+					<group>
+						<group>
+							<field name="name"/>
+							<field name="offer_from"/>
+							<field name="offer_to"/>
+						</group>
+						<group>
+							<field name="created_date"/>
+							<field name="description"/>
+						</group>
+					</group>
+				</sheet>
+				<div class="oe_chatter">
+					<field name="message_follower_ids" widget="mail_followers"/>
+					<field name="message_ids" widget="mail_thread" />
+				</div>
+			</form>
+		</field>
+	</record>
+
+	<record id="view_offers_search" model="ir.ui.view">
+		<field name="name">offers.search</field>
+		<field name="model">offers</field>
+		<field name="arch" type="xml">
+			<search string="Search Offers">
+				<field name="name"></field>
+				<field name="offer_sequence"></field>
+				<group expand="0" string="Group By">
+					<filter string="Active Offers" name="state" domain="[('state','=','active')]"/>
+				</group>
+			</search>
+		</field>
+	</record>
+
+	<record id="sequence_offers" model="ir.sequence">
+		<field name="name">Offers</field>
+		<field name="code">offers</field>
+		<field name="prefix">Offer/</field>
+		<field name="padding">5</field>
+		<field eval="False" name="company_id"/>
+	</record>
+
+	<record model="ir.actions.act_window" id="action_offers">
+		<field name="name">Offers</field>
+		<field name="res_model">offers</field>
+		<field name="domain">[]</field>
+		<field name="context">{'search_default_state': 1}</field>
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">Create a New Offer</p>
+		</field>
+	</record>
+
+	<menuitem id="menu_offers" name="Offers" parent="menu_service_management" action="action_offers"/>
+</odoo>

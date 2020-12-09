@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- Email template for Salesperson -->
+		<record id="email_template_sales_person" model="mail.template">
+			<field name="name">New Lead</field>
+			<field name="subject">Reg:Assigned New Lead </field>
+			<field name="email_from">${user.email}</field>
+			<field name="email_to">${object.user_id.login}</field>
+			<field name="lang">${user.lang}</field>
+			<field name="model_id" ref="indglobal_crm.model_crm_lead"/>
+			<field name="body_html"><![CDATA[
+				<p>Hai ${object.user_id.name},</p>
+				<br/>
+				<p>A new lead is assigned for you.</p>
+				<span>Opportunity : ${object.name}</span><br />
+				% if object.partner_id:
+					<span>Customer : ${object.partner_id.name}</span><br />
+				% endif
+				<br/>
+				<p>Regards,</p>
+				<p><strong>Odoo AUTOMATION</strong></p>
+				<p>This is a system generated email, do not reply to this email id</p>
+			]]></field>
+		</record>
+	</data>
+</odoo>

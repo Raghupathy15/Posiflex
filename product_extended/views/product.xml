@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_product_template_inherit_form" model="ir.ui.view">
+        <field name="name">view.product.template.inherit.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_information']" position="after">
+                <page name="extra" string="Other Info" groups="product.group_product_variant">
+                    <group>
+                        <group>
+                            <field name="warranty_period"/> 
+                            <field name="model_no"/>
+                            <field name="manufacturer_part"/>
+                            <field name="base_uom"/>
+                            <field name="inventory_posting_group"/>
+                            <field name="unit_price"/>
+                            <field name="profit_calc"/>
+                            <field name="prevent_negative_invent"/>
+                            <field name="bis"/>
+                            <field name="bis_start_date"/>
+                            <field name="bis_exp_date"/>
+                            <field name="buyer_group"/>
+                            <field name="item_tracking"/>
+                            <field name="item_group"/>
+                        </group>
+                        <group>
+                            <field name="length"/>
+                            <field name="width"/>
+                            <field name="height"/>
+                            <field name="description"/>
+                            <field name="cpu"/>
+                            <field name="memory"/>
+                            <field name="storage"/>
+                            <field name="display"/>
+                            <field name="touch"/>
+                            <field name="os"/>
+                            <field name="interface"/>
+                            <field name="network"/>
+                            <field name="scanner"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

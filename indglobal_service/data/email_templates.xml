@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- Email template for Cron Exipry Notification -->
+		<record id="email_template_sales_person_expiry_notify" model="mail.template">
+			<field name="name">Sales Person Expiry Notification</field>
+			<field name="subject">${object.partner_id.name} Demo is going to expired</field>
+			<field name="email_from">${user.email}</field>
+			<field name="email_to">${object.employee_id.work_email},${object.employee_id.rsm_id.work_email}</field>
+			<field name="lang">${user.lang}</field>
+			<field name="model_id" ref="indglobal_events.model_demo_inventory"/>
+			<field name="body_html"><![CDATA[
+				<p>${object.partner_id.name} Demo is going to expired</p>
+				<br/>
+				<p>Regards,</p>
+				<p><strong>ERP AUTOMATION</strong></p>
+				<p>This is a system generated email, do not reply to this email ID</p>
+			]]></field>
+		</record>
+	</data>
+</odoo>

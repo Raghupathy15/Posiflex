@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vendor_groups,vendor.groups,model_vendor_groups,,1,1,1,1
+access_customer_groups,customer.groups,model_customer_groups,,1,1,1,1
+access_zone_master,zone.master,model_zone_master,,1,1,1,1
+access_branch_master,branch.master,model_branch_master,,1,1,1,1
+access_questions_master,questions.master,model_questions_master,,1,1,1,1
+access_questions_line,questions.line,model_questions_line,,1,1,1,1
+access_industry_master,industry.master,model_industry_master,,1,1,1,1

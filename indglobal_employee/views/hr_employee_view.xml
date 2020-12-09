@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="hr_employee_form_view_inherit">
+			<field name="name">hr.employee.form.view</field>
+			<field name="model">hr.employee</field>
+			<field name="inherit_id" ref="hr.view_employee_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='name']" position='after'>
+					<h1>
+						<field name="emp_id" placeholder="Employee's ID"/>
+					</h1>
+				</xpath>
+				<xpath expr="//field[@name='parent_id']" position='replace'>
+					<field name="user_level"/>
+					<field name="parent_id" attrs="{'invisible': ['|','|','|','|',('user_level', '=', 'sm'),('user_level', '=', False),('user_level', '=', 'sales_head'),('user_level', '=', 'admin'),('user_level', '=', 'rsm')]}"/>
+					<field name="rsm_id" attrs="{'invisible': ['|','|','|',('user_level', '=', 'rsm'),('user_level', '=', False),('user_level', '=', 'admin'),('user_level', '=', 'sales_head')]}"/>
+					<field name="sales_head_id" attrs="{'invisible': ['|','|',('user_level','=',False),('user_level', '=', 'admin'),('user_level', '=', 'sales_head')]}"/>
+				</xpath>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="inherit_hr_kanban_view_employees">
+			<field name="name">hr.employee.kanban.inherit</field>
+			<field name="model">hr.employee</field>
+			<field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+			<field name="arch" type="xml">
+				<field name="name" position="after"> - 
+					<field name="emp_id"/>
+				</field>
+			</field>
+		</record>
+
+		<!-- Default act window inherited to add domain -->
+		<record id="hr.open_view_employee_list_my" model="ir.actions.act_window">
+			<field name="name">Employees</field>
+			<field name="res_model">hr.employee</field>
+			<field name="view_mode">kanban,tree,form,activity</field>
+			<field name="domain">[('user_id','=', uid)]</field>
+			<field name="context">{}</field>
+			<field name="view_id" eval="False"/>
+			<field name="search_view_id" ref="hr.view_employee_filter"/>
+			<field name="help" type="html">
+			 <p class="o_view_nocontent_smiling_face">
+			   Add a new employee
+			 </p><p>
+			   With just a quick glance on the Odoo employee screen, you
+			   can easily find all the information you need for each person;
+			   contact data, job position, availability, etc.
+			 </p>
+			</field>
+		</record>
+
+		<!-- Added new act_window to display "All Employees" -->
+		<record id="open_view_employee_list_my_all" model="ir.actions.act_window">
+			<field name="name">All Employees</field>
+			<field name="res_model">hr.employee</field>
+			<field name="view_mode">kanban,tree,form,activity</field>
+			<field name="context">{}</field>
+			<field name="domain">[]</field>
+			<field name="view_id" eval="False"/>
+			<field name="search_view_id" ref="hr.view_employee_filter"/>
+			<field name="help" type="html">
+			  <p class="o_view_nocontent_smiling_face">
+				Add a new employee
+			  </p><p>
+				With just a quick glance on the Odoo employee screen, you
+				can easily find all the information you need for each person;
+				contact data, job position, availability, etc.
+			  </p>
+			</field>
+		</record>
+
+		<!-- Dnt show "All Employees" menu for users -->
+		<menuitem id="menu_open_view_employee_list_my_inherit_1" name="All Employees"
+			action="open_view_employee_list_my_all" parent="hr.menu_hr_employee_payroll"
+			sequence="1" groups="indglobal_employee.group_hr_sales_head,indglobal_employee.group_hr_rsm,indglobal_employee.group_hr_sm"/>
+
+		<menuitem
+			id="hr.menu_hr_employee_payroll"
+			name="Employees"
+			parent="hr.menu_hr_root"
+			groups="base.group_user,indglobal_employee.group_hr_sales_head"
+			sequence="3"/>
+
+			<menuitem
+				id="hr.menu_hr_employee_user"
+				name="Employees"
+				action="hr.open_view_employee_list_my"
+				groups="base.group_user,indglobal_employee.group_hr_sales_head"
+				parent="hr.menu_hr_employee_payroll"
+				sequence="1"/>
+
+		<!-- To Show 'Employee Directory' only for admin -->
+		<menuitem
+			id="hr.menu_hr_employee"
+			name="Employee Directory"
+			action="hr.hr_employee_public_action"
+			parent="hr.menu_hr_root"
+			groups="base.group_system"
+			sequence="4"/>
+
+		<!-- To show configuration to all user -->
+		<menuitem
+			id="hr.menu_human_resources_configuration"
+			name="Configuration"
+			parent="hr.menu_hr_root"
+			groups="base.group_user"
+			sequence="100"/>
+
+		<!-- To show settings only for admin -->
+		<menuitem name="Settings"
+          id="base.menu_administration"
+          web_icon="base,static/description/settings.png"
+          sequence="500"
+          groups="base.group_system"/>
+
+	</data>
+</odoo>

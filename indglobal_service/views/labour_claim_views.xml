@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<!-- Labour claim master (Starts) -->
+	<record id="view_labour_claim_master_tree" model="ir.ui.view">
+		<field name="name">labour.claim.master.tree</field>
+		<field name="model">labour.claim.master</field>
+		<field name="priority" eval="8" />
+		<field name="arch" type="xml">
+			<tree string="Labour Claim master" duplicate='false' delete='false'>
+				<field name="name"/>
+				<field name="amnt"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_labour_claim_master_form" model="ir.ui.view">
+		<field name="name">labour.claim.master.form</field>
+		<field name="model">labour.claim.master</field>
+		<field name="arch" type="xml">
+			<form duplicate='false' delete='false'>
+				<sheet>
+					<group>
+						<group>
+							<field name="name" options="{'no_create': True, 'no_open':True}"/>
+							<field name="amnt"/>
+						</group>
+					</group>
+				</sheet>
+				<div class="oe_chatter">
+					<field name="message_follower_ids" widget="mail_followers"/>
+					<field name="message_ids" widget="mail_thread" />
+				</div>
+			</form>
+		</field>
+	</record>
+
+	<record id="view_labour_claim_master_search" model="ir.ui.view">
+		<field name="name">Labour claim master</field>
+		<field name="model">labour.claim.master</field>
+		<field name="arch" type="xml">
+			<search string="Search Labour">
+				<field name="name"></field>
+			</search>
+		</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="action_labour_claim_master">
+		<field name="name">Labour claim master</field>
+		<field name="res_model">labour.claim.master</field>
+		<field name="domain">[]</field>
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">Create a New Record</p>
+		</field>
+	</record>
+
+	<menuitem id="menu_labour_configurations" name="Configurations" parent="menu_service_management"/>
+
+	<menuitem id="menu_labour_claim_master" name="Labour Claim Master" parent="menu_labour_configurations"  
+			  action="action_labour_claim_master"/>
+	<!-- Labour claim master (Ends) -->
+
+	<!-- Labour claim (Starts) -->
+	<record id="view_labour_claim_tree" model="ir.ui.view">
+		<field name="name">labour.claim.tree</field>
+		<field name="model">labour.claim</field>
+		<field name="priority" eval="8" />
+		<field name="arch" type="xml">
+			<tree string="Labour Claim" duplicate='false' delete='false'>
+				<field name="name"/>
+				<field name="no_of_days"/>
+				<field name="amnt"/>
+				<field name="tot_amnt"/>
+				<field name="state"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_labour_claim_form" model="ir.ui.view">
+		<field name="name">labour.claim.form</field>
+		<field name="model">labour.claim</field>
+		<field name="arch" type="xml">
+			<form duplicate='false' delete='false'>
+				<header>
+					<button string="Submit" name="button_submit" type="object" class="oe_highlight" attrs="{'invisible':[('state', 'not in', 'draft')]}"/>
+					<button string="Approve" name="button_approve" type="object" class="oe_highlight" attrs="{'invisible':[('state', 'not in', 'claim_requested')]}"/>
+					<button string="Reject" name="button_reject" type="object" class="oe_highlight" attrs="{'invisible':[('state', 'not in', ['draft','reject'])]}"/>
+					<field name="state" widget="statusbar" statusbar_visible="draft,claim_requested,approved,reject"/>
+				</header>
+				<sheet>
+					<group>
+						<group>
+							<field name="name" options="{'no_create': True, 'no_open':True}" attrs="{'readonly':[('state', 'not in', 'draft')]}"/>
+							<field name="no_of_days" attrs="{'readonly':[('state', 'not in', 'draft')]}"/>
+						</group>
+						<group>
+							<field name="amnt" force_save="1"/>
+							<field name="tot_amnt"/>
+							<field name="rej_remarks"/>
+						</group>
+					</group>
+					<group>
+						<field name="remarks" placeholder="Please type your remarks.." attrs="{'readonly':[('state', 'not in', 'draft')]}"/>
+					</group>
+				</sheet>
+				<div class="oe_chatter">
+					<field name="message_follower_ids" widget="mail_followers"/>
+					<field name="message_ids" widget="mail_thread" />
+				</div>
+			</form>
+		</field>
+	</record>
+
+	<record id="view_labour_claim_search" model="ir.ui.view">
+		<field name="name">Labour claim</field>
+		<field name="model">labour.claim</field>
+		<field name="arch" type="xml">
+			<search string="Search Labour">
+				<field name="name"></field>
+			</search>
+		</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="action_labour_claim">
+		<field name="name">Labour claim</field>
+		<field name="res_model">labour.claim</field>
+		<field name="domain">[]</field>
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">Create a New Record</p>
+		</field>
+	</record>
+
+	<menuitem id="menu_labour_claim" name="Labour Claim" parent="menu_service_management" action="action_labour_claim" sequence="1"/>
+	<!-- Labour claim (Ends) -->
+
+</odoo>

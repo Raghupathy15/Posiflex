@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_demo_delivery_document" inherit_id="stock.report_delivery_document">
+        <xpath expr="//div[@name='div_sched_date']" position="after">
+            <div t-if="o.picking_type_id.code == 'DOUT' or 'DIN'" class="col-auto">
+                <strong>From Date:</strong>
+                <p t-field="o.demo_id.from_date" t-options='{"widget": "date"}'/>
+            </div>
+            <div t-if="o.picking_type_id.code == 'DOUT' or 'DIN'" class="col-auto">
+                <strong>End Date:</strong>
+                <p t-field="o.demo_id.end_date" t-options='{"widget": "date"}'/>
+            </div>
+        </xpath>
+        <xpath expr="//table[@name='stock_move_line_table']" position="after">
+            <div t-if="o.picking_type_id.code == 'DOUT' or 'DIN'">
+                <strong>Terms and Conditions:</strong><br/>
+                <p t-field="o.demo_id.terms_conditions"/>
+            </div>
+        </xpath>
+    </template>
+</odoo>

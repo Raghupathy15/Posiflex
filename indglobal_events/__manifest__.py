@@ -1,0 +1,22 @@
+{
+    'name': 'Demo Inventory',
+    'version': '13.0',
+    'summary': 'Demo Inventory',
+    'description': """Demo Inventory""",
+    'category': 'Tools',
+    'author': 'Indglobal',
+    'depends': ['base','mail','product','stock','sales_team','crm'],
+    'data': [
+        'security/ir.model.access.csv',
+        'security/security.xml',
+        'wizard/approver_remark_wizard_view.xml',
+        'data/cron.xml',
+        'data/email_templates.xml',
+        'views/demo.xml',
+        'views/report_delivery_slip.xml',
+    ],
+    'demo': [],
+    'installable': True,
+    'auto_install': False,
+    'application': True,
+}

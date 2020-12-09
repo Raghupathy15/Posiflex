@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="deleted_records_list_view" model="ir.ui.view">
+        <field name="model">deleted.records</field>
+        <field name="arch" type="xml">
+            <tree create="false" editable="top">
+                <field name="name" readonly="1"/>
+                <field name="user_id" readonly="1" options='{"no_open": True}'/>
+                <field name="model_id" readonly="1" options='{"no_open": True}'/>
+                <field name="create_date" string="Deleted On"/>
+                <field name="company_id" readonly="1" options='{"no_open": True}'/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="deleted_records_action_window" model="ir.actions.act_window">
+        <field name="name">Deleted Records Info</field>
+        <field name="res_model">deleted.records</field>
+        <!-- <field name="view_mode">tree,form</field> -->
+        <field name="view_mode">tree</field>
+    </record>
+    
+    <!-- <menuitem name="Deleted Records" id="deleted_record_menu" parent="base.menu_custom"
+              action="deleted_records_action_window"/> -->
+
+    <menuitem id="deleted_record_menu_1" name="Deleted Records Info" parent="crm.crm_menu_config"
+            action="deleted_records_action_window" sequence="10"/>
+
+</odoo>

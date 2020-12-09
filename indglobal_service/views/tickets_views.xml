@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="view_tickets_tree" model="ir.ui.view">
+		<field name="name">view.tickets.tree</field>
+		<field name="model">tickets</field>
+		<field name="priority" eval="8" />
+		<field name="arch" type="xml">
+			<tree string="Tickets" duplicate='false'>
+				<field name="name" string='Ticket No'/>
+				<field name="date_creation"/>
+				<field name="customer_id"/>
+				<field name="contact"/>
+				<field name="email"/>
+				<field name="state"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_tickets_form" model="ir.ui.view">
+		<field name="name">view.tickets.form</field>
+		<field name="model">tickets</field>
+		<field name="arch" type="xml">
+			<form duplicate='false'>
+				<header>
+					<button string="Submit" name="button_submit" type="object" class="oe_highlight" attrs="{'invisible':[('state', 'not in', 'open')]}"/>
+					<button string="In-Progress" name="button_in_progress" type="object" class="oe_highlight" attrs="{'invisible':[('state','not in',['assigned'])]}"/>
+					<button string="Create Quotation" name="button_quotation" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_quote_created','=',True),('state','not in',['in_progress','assigned'])]}"/>
+					<button string="Close" name="button_close" type="object" class="oe_highlight" attrs="{'invisible':[('state','not in',['assigned','in_progress'])]}"/>
+					<button string="Reject" name="button_reject" type="object" class="oe_highlight" attrs="{'invisible':[('state','not in',['assigned','in_progress'])]}"/>
+					<field name="state" widget="statusbar" statusbar_visible="open,assigned,in_progress,closed,reject"/>
+				</header>
+				<sheet>   
+					<div class="oe_button_box" name="button_box">
+						<button class="oe_stat_button" type="object" name="get_quotation" icon="fa-pencil-square-o">
+							<field string="Quotation" name="quotation_count" widget="statinfo"/>
+						</button>
+					</div>  
+					<div class="oe_title oe_inline">
+						<h1><field name="name"/></h1>
+					</div>
+					<group>
+						<group>
+							<field name="customer_id" options="{'no_create': True}"/>
+							<field name="contact" force_save="1"/>
+							<field name="email" force_save="1"/>
+							<field name="remarks" placeholder='Enter your remarks...'/>
+							<field name="rej_remarks" invisible='1'/>
+							<field name="service_date"/>
+						</group>
+						<group>
+							<field name="date_creation"/>
+							<field name="service_category" widget='radio'/>
+							<field name="assign_id" options="{'no_create': True, 'no_open':True}"/>
+							<field name="company_id" readonly="1" options='{"no_open": True}'/>
+							<field name="is_quote_created" invisible="1"/>
+						</group>
+					</group>
+					<notebook colspan="4">
+						<page string="Product Details">
+							<field name="product_ids" attrs="{'readonly':[('state','=','close')]}">
+								<tree editable="bottom">
+									<field name="product_id" />
+									<field name="categ_id" force_save="1"/>
+									<field name="product_uom_qty"/>
+								</tree>
+							</field>
+						</page>
+						<page string="Attachment">
+							<field name="attachment_ids" attrs="{'readonly':[('state','=','close')]}">
+								<tree editable="bottom">
+									<field name="name" />
+									<field name="user_id" options='{"no_open": True}'/>
+									<field name="date"/>
+									<field name="attachment" invisible="1"/>
+									<field widget="binary" height="64" name="existing" filename="attachment"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+				<div class="oe_chatter">
+					<field name="message_follower_ids" widget="mail_followers"/>
+					<field name="message_ids" widget="mail_thread" />
+				</div>
+			</form>
+		</field>
+	</record>
+
+	<record id="view_tickets_search" model="ir.ui.view">
+		<field name="name">tickets.search</field>
+		<field name="model">tickets</field>
+		<field name="arch" type="xml">
+			<search string="Search Tickets">
+				<field name="name"></field>
+				<group expand="0" string="Group By">
+					<filter string="Assigned to" name="assign_id" context="{'group_by': 'assign_id'}"></filter>
+					<filter string="Open Tickets" name="state" domain="[('state','not in',['closed','reject'])]"/>
+				</group>
+			</search>
+		</field>
+	</record>
+
+	<record id="sequence_tickets" model="ir.sequence">
+		<field name="name">Tickets</field>
+		<field name="code">tickets</field>
+		<field name="prefix">Ticket/</field>
+		<field name="padding">5</field>
+		<field eval="False" name="company_id"/>
+	</record>
+
+	<record model="ir.actions.act_window" id="action_tickets">
+		<field name="name">Tickets</field>
+		<field name="res_model">tickets</field>
+		<field name="domain">[]</field>
+		<field name="context">{'search_default_state': 1}</field>
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">Create a New Ticket</p>
+		</field>
+	</record>
+
+	<menuitem id="menu_service_management" name="Service" web_icon="indglobal_service,static/description/icon.png"/>
+	<menuitem id="menu_tickets" name="Tickets" parent="menu_service_management"  
+			  action="action_tickets" sequence="1"/>
+</odoo>

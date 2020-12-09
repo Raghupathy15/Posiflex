@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    
+    <!--If Approver is not Approve a Travel Claim Approver Account should block -->
+    <record id="ir_cron_demo_expiry_notify" model="ir.cron">
+        <field name="name">Demo Expiry Notification</field>
+        <field name="model_id" ref="model_demo_inventory"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_expiry_notify()</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d 00:15:00')"/>
+        <field eval="False" name="doall" />
+    </record>
+</odoo>

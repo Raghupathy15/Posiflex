@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- Email template - mail to SM-->
+		<record id="email_template_disc_req_created" model="mail.template">
+			<field name="name">Discount Request</field>
+			<field name="subject">Reg:Discount Request </field>
+			<field name="email_from">${user.email}</field>
+			<field name="email_to">${object.sm_emp_id.work_email}</field>
+			<field name="lang">${user.lang}</field>
+			<field name="model_id" ref="indglobal_sale.model_sale_order"/>
+			<field name="body_html"><![CDATA[
+				<p>Hai ${object.sm_emp_id.name},</p>
+				<p>New discount request is raised. Kindly find the details below</p>
+				<span>Reference : ${object.name}</span><br />
+				% if object.partner_id:
+					<span>Customer Name : ${object.partner_id.name}</span><br />
+				% endif
+				<br/>
+				<p>Regards,</p>
+				<p><strong>Odoo AUTOMATION</strong></p>
+				<p>This is a system generated email, do not reply to this email id</p>
+			]]></field>
+		</record>
+
+		<!-- Email template - mail to RSM-->
+		<record id="email_template_disc_req_created_rsm" model="mail.template">
+			<field name="name">Discount Request</field>
+			<field name="subject">Reg:Discount Request </field>
+			<field name="email_from">${user.email}</field>
+			<field name="email_to">${object.rsm_emp_id.work_email}</field>
+			<field name="lang">${user.lang}</field>
+			<field name="model_id" ref="indglobal_sale.model_sale_order"/>
+			<field name="body_html"><![CDATA[
+				<p>Hai ${object.rsm_emp_id.name},</p>
+				<p>New discount request is raised. Kindly find the details below</p>
+				<span>Reference : ${object.name}</span><br />
+				% if object.partner_id:
+					<span>Customer Name : ${object.partner_id.name}</span><br />
+				% endif
+				<br/>
+				<p>Regards,</p>
+				<p><strong>Odoo AUTOMATION</strong></p>
+				<p>This is a system generated email, do not reply to this email id</p>
+			]]></field>
+		</record>
+
+		<!-- Email template - mail to SH-->
+		<record id="email_template_disc_req_created_sm" model="mail.template">
+			<field name="name">Discount Request</field>
+			<field name="subject">Reg:Discount Request </field>
+			<field name="email_from">${user.email}</field>
+			<field name="email_to">${object.sh_emp_id.work_email}</field>
+			<field name="lang">${user.lang}</field>
+			<field name="model_id" ref="indglobal_sale.model_sale_order"/>
+			<field name="body_html"><![CDATA[
+				<p>Hai ${object.sh_emp_id.name},</p>
+				<p>New discount request is raised. Kindly find the details below</p>
+				<span>Reference : ${object.name}</span><br />
+				% if object.partner_id:
+					<span>Customer Name : ${object.partner_id.name}</span><br />
+				% endif
+				<br/>
+				<p>Regards,</p>
+				<p><strong>Odoo AUTOMATION</strong></p>
+				<p>This is a system generated email, do not reply to this email id</p>
+			]]></field>
+		</record>
+
+		<!-- Email template for Salesperson while Discount request is approved -->
+		<record id="email_template_sales_person_dis_approved" model="mail.template">
+			<field name="name">Discoount approved</field>
+			<field name="subject">Reg:Discount Approved </field>
+			<field name="email_from">${user.email}</field>
+			<field name="email_to">${object.user_id.login}</field>
+			<field name="lang">${user.lang}</field>
+			<field name="model_id" ref="indglobal_sale.model_sale_order"/>
+			<field name="body_html"><![CDATA[
+				<p>Hai ${object.user_id.name},</p>
+				<p>Your Discount request is approved.Kindly find the details below</p>
+				<span>Reference : ${object.name}</span><br />
+				% if object.partner_id:
+					<span>Customer Name : ${object.partner_id.name}</span><br />
+				% endif
+				<br/>
+				<p>Regards,</p>
+				<p><strong>Odoo AUTOMATION</strong></p>
+				<p>This is a system generated email, do not reply to this email id</p>
+			]]></field>
+		</record>
+
+		<!-- Email template for Discout rejection (mail to sales person)-->
+		<record id="email_template_dis_rej" model="mail.template">
+			<field name="name">New Lead</field>
+			<field name="subject">Reg:Discount request rejected</field>
+			<field name="email_from">${user.email}</field>
+			<field name="email_to">${object.user_id.login}</field>
+			<field name="lang">${user.lang}</field>
+			<field name="model_id" ref="indglobal_sale.model_sale_order"/>
+			<field name="body_html"><![CDATA[
+				<p>Hai ${object.user_id.name},</p>
+				<br/>
+				<p>Your discount requested is rejected. Kindly find the details below</p>
+				<span>Reference : ${object.name}</span><br />
+				<span>Customer : ${object.partner_id.name}</span><br />
+				<span>Reason : ${object.rej_remarks}</span><br />
+				<br/>
+				<p>Regards,</p>
+				<p><strong>Odoo AUTOMATION</strong></p>
+				<p>This is a system generated email, do not reply to this email id</p>
+			]]></field>
+		</record>
+	</data>
+</odoo>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+       <record id="view_account_journal_form_inherit" model="ir.ui.view">
+            <field name="name">account.journal.inherit</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">             
+                <xpath expr="//field[@name='type_control_ids']" position="before">
+                    <field name="bal_acnt_type"/>    
+                    <field name="bal_accnt_no"/>    
+                </xpath>
+                <xpath expr="//field[@name='outbound_payment_method_ids']" position="after">
+                    <field name="payment_processor"/>    
+                </xpath>
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="payment_processor"/>   
+                    <field name="direct_debit"/>
+                    <field name="pmt_export"/>
+                    <field name="bank_pmt_type"/>
+                </xpath>
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="pmt_terms_code"/>
+                </xpath>
+            </field>
+        </record>
+     </data>
+</odoo>

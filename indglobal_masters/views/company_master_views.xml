@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <record id="inherit_view_res_company" model="ir.ui.view">
+		<field name="name">inherit.res.company.form</field>
+		<field name="model">res.company</field>
+		<field name="inherit_id" ref="base.view_company_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="/form/sheet/notebook/page/group/group[2]/field[@name='parent_id']" position="after">
+				<field name="telex_no"/>
+				<field name="fax_no"/>
+				<field name="tin"/>
+				<field name="lst"/>
+				<field name="cst"/>
+				<field name="pan"/>
+				<field name="ecc"/>
+				<field name="tan"/>
+			</xpath>
+			<xpath expr="/form/sheet/notebook/page/group/group[2]/field[@name='favicon']" position="after">
+				<field name="giro_no"/>
+				<field name="pmt_routing_no"/>
+				<field name="cus_permit_date"/>
+			</xpath>
+			<xpath expr="/form/sheet/notebook/page/group/group[1]/field[@name='website']" position="after">
+				<field name="bank_name"/>
+				<field name="bank_acc_no"/>
+				<field name="bank_branch_no"/>
+				<field name="intrastat_contact_no"/>
+				<field name="intrastat_contact_type"/>
+				<field name="cus_permit_no"/>
+				<field name="location_code"/>
+				<field name="res_center"/>
+			</xpath>
+		</field>
+	</record>
+	<record id="action_res_company_form" model="ir.actions.act_window">
+        <field name="name">Company master</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.company</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a new company
+          </p><p>
+            Create and manage the companies that will be managed by Odoo from here. Shops or subsidiaries can be created and maintained from here.
+          </p>
+        </field>
+    </record>
+
+	<menuitem action="action_res_company_form" id="inherit_menu_action_res_company_form" 											parent="contacts.res_partner_menu_config" sequence="0"/>
+</odoo>
